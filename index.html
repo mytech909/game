@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+
+<title> MyTech - Games </title>
+
+<link rel="stylesheet" href="games.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Discover the latest in tech products and services, including gadgets, software, and innovations. Stay up-to-date with the rapidly evolving world of technology.">
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="favicon.ico" href="img/logo.png">
+
+</head>
+<h1>JackSmith RufflePlayer</h1>
+<br>
+<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<script>
+  const ruffle = RufflePlayer.newest();
+  const container = document.querySelector('.swf');
+  const player = ruffle.createPlayer();
+  player.style.width = '620px';
+  player.style.height = '480px';
+  player.load('https://mytech909.github.io/game/jacksmith.swf');
+  container.replaceWith(player);
+</script>
+
+
+<div class="flash-container" style="display: flex; justify-content: center; gap: 20px;">
+  <div class="swf">
+    <embed height="480" pluginspage="http://www.macromedia.com/go/getflashplayer"
+           src="https://mytech909.github.io/game/jacksmith.swf"
+           type="application/x-shockwave-flash" width="620">
+    </embed>
+  </div>
+
+  <div class="swf">
+    <embed height="480" pluginspage="http://www.macromedia.com/go/getflashplayer"
+           src="https://mytech909.github.io/game/papaspizzeria_v2.swf"
+           type="application/x-shockwave-flash" width="620">
+    </embed>
+  </div>
+</div>
+
+
+  <!-- Load WASM -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    async function loadWasm(file) {
+      try {
+        const response = await fetch(file);
+        const bytes = await response.arrayBuffer();
+        const wasmModule = await WebAssembly.instantiate(bytes);
+        console.log("WASM loaded:", wasmModule);
+        return wasmModule.instance.exports;
+      } catch (error) {
+        console.error("Error loading WebAssembly:", error);
+      }
+    }
+
+    (async () => {
+      // Replace with your actual WASM file path
+      const wasmFile = "https://mytech909.github.io/game/3e40845faf511d06babf.wasm";
+      const wasmExports = await loadWasm(wasmFile);
+
+      if (wasmExports) {
+        // Example: If your WASM exports a function named `initialize`
+        if (wasmExports.initialize) {
+          wasmExports.initialize();
+        }
+      }
+    })();
+  </script>
+
+
+
+
+</body>
+</html>
