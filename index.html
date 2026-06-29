@@ -1,84 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
-<html>
 <head>
-
-<title> MyTech - Games </title>
-
-<link rel="stylesheet" href="games.css">
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Discover the latest in tech products and services, including gadgets, software, and innovations. Stay up-to-date with the rapidly evolving world of technology.">
-
-
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="icon" type="favicon.ico" href="img/logo.png">
-
-</head>
-<h1>JackSmith RufflePlayer</h1>
-<br>
-<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-<script>
-  const ruffle = RufflePlayer.newest();
-  const container = document.querySelector('.swf');
-  const player = ruffle.createPlayer();
-  player.style.width = '620px';
-  player.style.height = '480px';
-  player.load('https://mytech909.github.io/game/jacksmith.swf');
-  container.replaceWith(player);
-</script>
-
-
-<div class="flash-container" style="display: flex; justify-content: center; gap: 20px;">
-  <div class="swf">
-    <embed height="480" pluginspage="http://www.macromedia.com/go/getflashplayer"
-           src="https://mytech909.github.io/game/jacksmith.swf"
-           type="application/x-shockwave-flash" width="620">
-    </embed>
-  </div>
-
-  <div class="swf">
-    <embed height="480" pluginspage="http://www.macromedia.com/go/getflashplayer"
-           src="https://mytech909.github.io/game/papaspizzeria_v2.swf"
-           type="application/x-shockwave-flash" width="620">
-    </embed>
-  </div>
-</div>
-
-
-  <!-- Load WASM -->
-  <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    async function loadWasm(file) {
-      try {
-        const response = await fetch(file);
-        const bytes = await response.arrayBuffer();
-        const wasmModule = await WebAssembly.instantiate(bytes);
-        console.log("WASM loaded:", wasmModule);
-        return wasmModule.instance.exports;
-      } catch (error) {
-        console.error("Error loading WebAssembly:", error);
-      }
-    }
-
-    (async () => {
-      // Replace with your actual WASM file path
-      const wasmFile = "https://mytech909.github.io/game/3e40845faf511d06babf.wasm";
-      const wasmExports = await loadWasm(wasmFile);
-
-      if (wasmExports) {
-        // Example: If your WASM exports a function named `initialize`
-        if (wasmExports.initialize) {
-          wasmExports.initialize();
+    <title>Retro Games - Play Classic Flash Games</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Play classic Flash games directly in your browser using Ruffle emulator">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-      }
-    })();
-  </script>
-
-
-
-
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #00d9ff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        header p {
+            color: #aaa;
+            font-size: 1.1rem;
+        }
+        
+        .game-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 30px 20px;
+            flex-wrap: wrap;
+        }
+        
+        .game-btn {
+            background: linear-gradient(145deg, #2a2a4a, #1a1a3a);
+            border: 2px solid #00d9ff;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .game-btn:hover {
+            background: linear-gradient(145deg, #3a3a5a, #2a2a4a);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 217, 255, 0.4);
+        }
+        
+        .game-btn.active {
+            background: linear-gradient(145deg, #00d9ff, #0099cc);
+            color: #000;
+        }
+        
+        .game-container {
+            max-width: 900px;
+            margin: 0 auto 40px;
+            padding: 20px;
+        }
+        
+        .game-frame {
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+        }
+        
+        ruffle-player {
+            width: 100%;
+            height: 500px;
+        }
+        
+        .instructions {
+            max-width: 900px;
+            margin: 0 auto 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .instructions h2 {
+            color: #00d9ff;
+            margin-bottom: 15px;
+        }
+        
+        .instructions p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎮 Retro Games Arcade</h1>
+        <p>Play classic Flash games in your browser!</p>
+    </header>
+    
+    <div class="game-selector" id="gameSelector">
+        <!-- Game buttons will be generated here -->
+    </div>
+    
+    <div class="instructions">
+        <h2>How to Play</h2>
+        <p>Select a game from the buttons above and start playing! Use your mouse and keyboard to interact with the games. All games run locally using the Ruffle Flash emulator.</p>
+    </div>
+    
+    <div class="game-container">
+        <div class="game-frame" id="gameFrame">
+            <ruffle-player id="player"></ruffle-player>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Powered by Ruffle - The Flash Emulator</p>
+    </footer>
+    
+    <script src="ruffle.js"></script>
+    <script>
+        // Game configuration
+        const games = [
+            { id: 'jacksmith', name: '🔨 Jacksmith', file: 'jacksmith.swf' },
+            { id: 'pizzeria', name: '🍕 Papa\'s Pizzeria', file: 'papaspizzeria_v2.swf' },
+            { id: 'berzerk', name: '🤖 Berzerk Land', file: 'SOC_BerzerkLand.swf' }
+        ];
+        
+        let currentGame = null;
+        const player = document.getElementById('player');
+        const gameSelector = document.getElementById('gameSelector');
+        
+        // Create game buttons
+        games.forEach((game, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'game-btn';
+            btn.textContent = game.name;
+            btn.onclick = () => loadGame(game.id);
+            if (index === 0) btn.classList.add('active');
+            gameSelector.appendChild(btn);
+        });
+        
+        // Load game function
+        function loadGame(gameId) {
+            const game = games.find(g => g.id === gameId);
+            if (!game) return;
+            
+            // Update active button
+            document.querySelectorAll('.game-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.includes(game.name.split(' ')[1])) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Load the game
+            player.load(game.file);
+            currentGame = game;
+        }
+        
+        // Load first game on startup
+        window.addEventListener('DOMContentLoaded', () => {
+            loadGame(games[0].id);
+        });
+    </script>
 </body>
 </html>
